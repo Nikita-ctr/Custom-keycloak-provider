@@ -36,7 +36,7 @@ public class CustomUserStorageProviderFactory implements UserStorageProviderFact
                 .name(CONFIG_KEY_JDBC_URL)
                 .label("JDBC URL")
                 .type(ProviderConfigProperty.STRING_TYPE)
-                .defaultValue("jdbc:h2:mem:customdb")
+                .defaultValue("jdbc:postgresql://localhost:5432/hitcher")
                 .helpText("JDBC URL used to connect to the user database")
                 .add()
                 .property()

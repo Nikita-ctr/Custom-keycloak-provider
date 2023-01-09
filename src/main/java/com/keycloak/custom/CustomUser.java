@@ -7,6 +7,7 @@ import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
 import org.keycloak.storage.adapter.AbstractUserAdapter;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,36 +15,33 @@ public class CustomUser extends AbstractUserAdapter {
 
     private final String username;
     private final String email;
-    private final String firstName;
-    private final String lastName;
-    private final String birthDate;
+    private final String phone;
 
-    private final String phoneNumber;
+    private final boolean verified;
 
-    private final boolean isEmailVerified;
+    private final boolean accepted;
+
+    private Date registrationDate;
 
     private final String about;
-
 
     public CustomUser(KeycloakSession session,
                       RealmModel realm,
                       ComponentModel storageProviderModel,
                       String username,
                       String email,
-                      String firstName,
-                      String lastName,
-                      String birthDate,
-                      String phoneNumber,
-                      boolean isEmailVerified,
+                      String phone,
+                      boolean verified,
+                      boolean accepted,
+                      Date registrationDate,
                       String about) {
         super(session, realm, storageProviderModel);
         this.username = username;
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
-        this.phoneNumber = phoneNumber;
-        this.isEmailVerified = isEmailVerified;
+        this.phone = phone;
+        this.verified = verified;
+        this.accepted = accepted;
+        this.registrationDate = registrationDate;
         this.about = about;
     }
 
@@ -57,29 +55,25 @@ public class CustomUser extends AbstractUserAdapter {
         return email;
     }
 
-    @Override
-    public String getFirstName() {
-        return firstName;
+    public String getPhone() {
+        return phone;
     }
 
-    @Override
-    public String getLastName() {
-        return lastName;
+    public boolean isVerified() {
+        return verified;
     }
 
-    public String getBirthDate() {
-        return birthDate;
+    public boolean isAccepted() {
+        return accepted;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public Date getRegistrationDate() {
+        return registrationDate;
     }
 
-    @Override
-    public boolean isEmailVerified() {
-        return isEmailVerified;
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
-
 
     public String getAbout() {
         return about;
@@ -90,12 +84,11 @@ public class CustomUser extends AbstractUserAdapter {
         MultivaluedHashMap<String, String> attributes = new MultivaluedHashMap<>();
         attributes.add(UserModel.USERNAME, getUsername());
         attributes.add(UserModel.EMAIL, getEmail());
-        attributes.add(UserModel.FIRST_NAME, getFirstName());
-        attributes.add(UserModel.LAST_NAME, getLastName());
-        attributes.add(("isEmailVerified"), String.valueOf(isEmailVerified()));
-        attributes.add("birthDate", getBirthDate());
-        attributes.add("phone", getPhoneNumber());
+        attributes.add(("verified"), String.valueOf(isVerified()));
+        attributes.add("accepted",String.valueOf(isAccepted()));
+        attributes.add("registrationDate", String.valueOf(getRegistrationDate()));
         attributes.add("about", getAbout());
+
         return attributes;
     }
 
@@ -105,13 +98,11 @@ public class CustomUser extends AbstractUserAdapter {
         private final ComponentModel storageProviderModel;
         private final String username;
         private String email;
-        private String firstName;
-        private String lastName;
-        private String birthDate;
+        private boolean verified;
+        private boolean accepted;
+        private String phone;
 
-        private boolean isEmailVerified;
-
-        private String phoneNumber;
+        private Date registrationDate;
 
         private String about;
 
@@ -127,28 +118,24 @@ public class CustomUser extends AbstractUserAdapter {
             return this;
         }
 
-        CustomUser.Builder firstName(String firstName) {
-            this.firstName = firstName;
+
+        CustomUser.Builder isVerified(boolean isVerified) {
+            this.verified = isVerified;
             return this;
         }
 
-        CustomUser.Builder lastName(String lastName) {
-            this.lastName = lastName;
+        CustomUser.Builder accepted(boolean accepted) {
+            this.accepted = accepted;
             return this;
         }
 
-        CustomUser.Builder birthDate(String birthDate) {
-            this.birthDate = birthDate;
+        CustomUser.Builder phone(String phone) {
+            this.phone = phone;
             return this;
         }
 
-        CustomUser.Builder isEmailVerified(boolean isEmailVerified) {
-            this.isEmailVerified = isEmailVerified;
-            return this;
-        }
-
-        CustomUser.Builder phoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
+        CustomUser.Builder registrationDate(Date registrationDate) {
+            this.registrationDate = registrationDate;
             return this;
         }
 
@@ -164,11 +151,10 @@ public class CustomUser extends AbstractUserAdapter {
                     storageProviderModel,
                     username,
                     email,
-                    firstName,
-                    lastName,
-                    birthDate,
-                    phoneNumber,
-                    isEmailVerified,
+                    phone,
+                    verified,
+                    accepted,
+                    registrationDate,
                     about);
 
         }
