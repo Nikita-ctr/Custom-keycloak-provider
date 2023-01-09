@@ -13,7 +13,7 @@ public class DbUtil {
     public static Connection getConnection(ComponentModel config) throws SQLException {
         String driverClass = config.get(CONFIG_KEY_JDBC_DRIVER);
         try {
-            Class.forName(driverClass);
+            Class.forName(CONFIG_KEY_JDBC_DRIVER);
         } catch (ClassNotFoundException nfe) {
             throw new RuntimeException("Invalid JDBC driver: " + driverClass + ". Please check if your driver if properly installed");
         }

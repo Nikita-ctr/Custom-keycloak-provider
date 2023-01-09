@@ -20,7 +20,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>11</java.version>
 
-		<keycloak.version>11.0.2</keycloak.version>
+		<keycloak.version>18.0.1</keycloak.version>
 
 		<!-- these should be updated together with Keycloak -->
 		<!-- check keycloak-dependencies-server-all effective pom -->
@@ -33,6 +33,12 @@
 			<groupId>org.keycloak</groupId>
 			<artifactId>keycloak-core</artifactId>
 			<version>${keycloak.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.5.1</version>
 		</dependency>
 
 		<dependency>
